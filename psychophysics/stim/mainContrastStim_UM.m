@@ -1,4 +1,14 @@
+%mainContrastStim_UM  script to init NECSUS stimulus - contrast detection.
+%   mainContrastStim_UM
+%
+%   Example
+%   mainContrastStim_UM
+%
+%   See also
 
+% Author: Bruno Direito (bruno.direito@uc.pt)
+% Coimbra Institute for Biomedical Imaging and Translational Research, University of Coimbra.
+% Created: 2022-01-27; Last Revision: 2022-01-27
 
 %% INIT
 % close any open connection or PTB screen
@@ -26,7 +36,7 @@ VIEWINGDISTANCE = 40;% 150 | 40 (debug)
 %% PRESETS (PARTICIPANT AND STUDY)
 
 % participant's information.
-PARTICIPANTNAME = "Glaretest"; % e.g. sub-NECSUS-UC001%; 
+PARTICIPANTNAME = "Glaretest"; % e.g. sub-NECSUS-UC001%;
 
 % NECSUS Variables.
 METHOD          = 'QUEST'; %'QUEST' | 'ConstantStimuli' | 'QUESTFSS'
@@ -76,40 +86,33 @@ ptb.hasGlare        = HASGLARE;
 %% Results analysis
 
 % --- Threshold estimation ---
-[results]=computeThreshold(responseMatrix);
+[results]               = computeThreshold(responseMatrix);
 % data regarding method.
-results.method=METHOD;
-results.SPATIALFREQ=SPATIALFREQ; 
-results.HASGLARE=HASGLARE; 
-results.BACKGROUNDLUM=BACKGROUNDLUM; 
+results.method          = METHOD;
+results.SPATIALFREQ     = SPATIALFREQ;
+results.HASGLARE        = HASGLARE;
+results.BACKGROUNDLUM   = BACKGROUNDLUM;
 
 %%
-% figure, plot(1:numel(model.pdf), model.pdf);
-% 
-% %%
-% 
-% figure, plot(model.i);
-%%
-% % % 
+% % %
 % % % betaEstimate=QuestBetaAnalysis(model);
-% % % 
+% % %
 % % % %%
 % % % intensityT=QuestQuantile(model,.5);
 % % % intensityNT=QuestQuantile(model,.75);
-% % % 
+% % %
 % % % sd=QuestSd(model);
-% % % 
+% % %
 % % % %% Save data
-% % % 
+% % %
 % % % % % save responseMatrix
 % % % responseFileName=sprintf('%s_%s_%s_%i_answers',PARTICIPANTNAME,string(SPATIALFREQ),METHOD,HASGLARE);
 % % % responseFilePathName=fullfile(pwd,'Answers',[responseFileName '.mat']);
 % % % save(responseFilePathName,'responseMatrix','timesLog', 'model');
-% % % % 
+% % % %
 % % % % % Save Results.
 % % % resultsFileName=sprintf('%s_%s_%s_%i_results',PARTICIPANTNAME,string(SPATIALFREQ),METHOD,HASGLARE);
 % % % resultsFilePathName=fullfile(pwd,'Results',[resultsFileName '.mat']);
 % % % save(resultsFilePathName,'results', 'intensityNT', 'intensityT', 'model');
-% % % 
-% % % %% 
-
+% % %
+% % % %%
