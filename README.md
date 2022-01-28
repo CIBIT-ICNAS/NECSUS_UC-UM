@@ -1,9 +1,10 @@
 # NECSUS_UC-UM
 NECSUS code - collaboration between Maastricht and Coimbra
 
-This repo contains the code for the psychophysics stimulus of the NECSUS project.
+This repo contains the code for the stimuli of the NECSUS project.
 
 Brief description of the folder structure.
+
 
 ## /psychophysics/stim
 contrast detection stimulus with glare frame (distractor) embedded.
@@ -27,6 +28,8 @@ IMPORTANT NOTES (site specific):
 glare dimensions (frame, dot size, etc.) are defined in visual angles (degrees). The blinking dots are randomly defined (seed of the random generator) in funtion glareInfo().
 
 - designGlare() setup the embedded glare frame. Convert visual angles to pixels etc.
+- screenGlare() Prepares frame for flip() with or without blinking dots.
+
 
 #### /psychophysics/stim/Utils/gabor
 Gabor patch dimensions (size in visual angle degrees, etc.), phase, frequency in funtion gaborInfo().
@@ -38,16 +41,18 @@ luminanceToRgb() - Using max luminance from the display, get the 20 c/m2 value n
 
 #### /psychophysics/stim/Utils/paradigm
 runStim_UM - main function that displays the contrast and glare, calls the contrast update algorithm etc.
+stimulusDefinition_UM - Set the default values for the variables selected for this run (related with gabor patch properties).
+
 
 IMPORTANT NOTES (site specific):
 - The stimuli is adjusted to a specific display. To this end, this function requires the original luminance measurements (particularly the maximum luminance) and the linearized gamma corrected table. In our example, the luminance measured is saved in variable 'NecsusNolightGray-rgblum11-Dec-2018.mat' and the gamma corrected table (normalized) is saved in 'InvertedCLUT.mat' - both .mat files are in the "luminance" folder.
+- stimulusDefinition_UM defines the *keys* to be pressed according to the participant perception of the stimuli.
 
 
 #### /psychophysics/stim/Utils/helpers
 Helper functions - misc. parameters, etc..
 
-- designFixationCross()  -  init paramters of fixation cross (size in pixels)
-
+- designFixationCross()  -  init parameters of fixation cross (size in pixels)
 
 
 ### /psychophysics/stim/Answers/

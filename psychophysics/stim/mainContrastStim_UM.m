@@ -29,7 +29,7 @@ addpath('Answers');
 addpath(genpath('Utils'));
 
 %% PRESETS (INFORMATION per RUN)
-HASGLARE        = 1; % input('glare/noglare?:','s'); % glare setup
+HASGLARE        = 0; % input('glare/noglare?:','s'); % glare setup
 
 VIEWINGDISTANCE = 40;% 150 | 40 (debug)
 
@@ -86,33 +86,38 @@ ptb.hasGlare        = HASGLARE;
 %% Results analysis
 
 % --- Threshold estimation ---
-[results]               = computeThreshold(responseMatrix);
 % data regarding method.
 results.method          = METHOD;
 results.SPATIALFREQ     = SPATIALFREQ;
 results.HASGLARE        = HASGLARE;
 results.BACKGROUNDLUM   = BACKGROUNDLUM;
 
+% threshold and near threshold as .5 and .75 of the estimated model.
+results.intensityT=QuestQuantile(model,.5);
+results.intensityNT=QuestQuantile(model,.75);
+
 %%
-% % %
-% % % betaEstimate=QuestBetaAnalysis(model);
-% % %
-% % % %%
-% % % intensityT=QuestQuantile(model,.5);
-% % % intensityNT=QuestQuantile(model,.75);
-% % %
-% % % sd=QuestSd(model);
-% % %
-% % % %% Save data
-% % %
-% % % % % save responseMatrix
-% % % responseFileName=sprintf('%s_%s_%s_%i_answers',PARTICIPANTNAME,string(SPATIALFREQ),METHOD,HASGLARE);
-% % % responseFilePathName=fullfile(pwd,'Answers',[responseFileName '.mat']);
-% % % save(responseFilePathName,'responseMatrix','timesLog', 'model');
-% % % %
-% % % % % Save Results.
-% % % resultsFileName=sprintf('%s_%s_%s_%i_results',PARTICIPANTNAME,string(SPATIALFREQ),METHOD,HASGLARE);
-% % % resultsFilePathName=fullfile(pwd,'Results',[resultsFileName '.mat']);
-% % % save(resultsFilePathName,'results', 'intensityNT', 'intensityT', 'model');
-% % %
-% % % %%
+figure(1)
+plot(1:length(responseMatrix),responseMatrix(:,2),'-');
+hold on,
+[trueidxs]=find(responseMatrix(:,3)==1);
+[falseidxs]=find(responseMatrix(:,3)==0);
+plot(trueidxs,responseMatrix(trueidxs,2),'bo');
+plot(falseidxs,responseMatrix(falseidxs,2),'b.', 'MarkerSize', 20);
+xlabel('iteration');
+ylabel('contrast [%]');
+
+
+%% Save data
+
+% save responseMatrix
+responseFileName=sprintf('%s_%s_%s_%i_answers',PARTICIPANTNAME,string(SPATIALFREQ),METHOD,HASGLARE);
+responseFilePathName=fullfile(pwd,'Answers',[responseFileName '.mat']);
+save(responseFilePathName,'responseMatrix','timesLog', 'model');
+
+% Save Results.
+resultsFileName=sprintf('%s_%s_%s_%i_results',PARTICIPANTNAME,string(SPATIALFREQ),METHOD,HASGLARE);
+resultsFilePathName=fullfile(pwd,'Results',[resultsFileName '.mat']);
+save(resultsFilePathName,'results', 'model');
+
+%%
