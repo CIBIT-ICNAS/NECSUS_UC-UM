@@ -29,7 +29,7 @@ addpath('Answers');
 addpath(genpath('Utils'));
 
 %% PRESETS (INFORMATION per RUN)
-HASGLARE        = 0; % input('glare/noglare?:','s'); % glare setup
+HASGLARE        = 1; % input('glare/noglare?:','s'); % glare setup
 
 VIEWINGDISTANCE = 40;% 150 | 40 (debug)
 
