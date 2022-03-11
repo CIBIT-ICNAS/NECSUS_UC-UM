@@ -1,6 +1,5 @@
 function glare = glareInfo()
 %GLAREINFO  Creates object with parameters regarding embedded glare frame.
-%   glare = glareInfo()
 %
 %   Example
 %   glare = glareInfo()

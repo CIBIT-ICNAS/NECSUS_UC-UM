@@ -12,7 +12,11 @@ syncTrick();
 try
     % -- if DEBUG off.
     if ~S.debug
-        % Load gamma corrected scale for MR pojector
+
+        % screen number.
+        ScrNumber = 0;
+        
+        % Load gamma corrected scale for MR pojector.
         load(fullfile(pwd,'Utils','luminance','invertedCLUTMRscanner.mat'));
         
         % Open SerialPorts.
@@ -30,9 +34,12 @@ try
         totalTrials=length(S.prt.events);
        
     else
+        % screen number.
+        ScrNumber = 1;
+
         % Load gamma corrected scale for LCD monitor
         load(fullfile(pwd,'Utils','luminance','invertedCLUT.mat'));
-        totalTrials=5;
+        totalTrials=2;
     end
     
     % Set "real time priority level"
@@ -52,7 +59,7 @@ try
     Screen('Preference', 'SkipSyncTests', 1);
     
     % Draw to the external screen if avaliable
-    scr.screenNumber=0;% max(screens);
+    scr.screenNumber=ScrNumber;% max(screens);
     
     % Open an on screen window
     [window, windowRect] = Screen('OpenWindow',...
@@ -74,8 +81,9 @@ try
     % Define white.
     scr.white = WhiteIndex(scr.screenNumber);
     % Get the size of the on screen window
-    [scr.screenXpixels, scr.screenYpixels]=Screen('WindowSize', window);
+    [scr.screenXpixels, scr.screenYpixels]  = Screen('WindowSize', window);
     
+  
     
     % Fixation cross elements.
     % Get the centre coordinate of the window and create cross.
@@ -105,7 +113,13 @@ try
         []);
     
 
-    
+    % Glare.
+    if S.hasGlare
+        % Prepare Glare frame.
+        glare       = designGlare(glare, scr, fCross);
+        
+    end
+
     %-----------------------------------------------------------------%
     %                      EXPERIMENTAL LOOP                          %
     %-----------------------------------------------------------------%
@@ -128,6 +142,10 @@ try
         stimDebugInit(window, scr.white)
     end
     
+    % Add glare frame if HASGLARE flag is true.
+    if S.hasGlare
+        screenGlare(glare, window, white, 0);
+    end
     
     % --- Main loop ---
     time.start=GetSecs;

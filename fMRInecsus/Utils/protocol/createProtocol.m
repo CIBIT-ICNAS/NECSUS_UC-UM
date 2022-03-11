@@ -5,11 +5,21 @@ function [stimuliPrt]=createProtocol(chaos,...
     pName,...
     conditions,...
     participant)
-
-% Function to create the protocol  
-
-% Build a variable with specific values of the treshold and near treshold
+%CREATEPROTOCOL  Build a variable with specific values of the treshold and near treshold
 % for each participant (determined in psychophysical task)
+%
+%   output = createProtocol(input)
+%
+%   Example
+%   createProtocol
+%
+%   See also
+
+% Author: Bruno Direito (bruno.direito@uc.pt)
+% Coimbra Institute for Biomedical Imaging and Translational Research, University of Coimbra.
+% Created: 2022-03-10; Last Revision: 2022-03-10
+
+
 
 % Each event is processed as a block. 
 stimuliPrt.parameters.blocks_mutliplier=1; 

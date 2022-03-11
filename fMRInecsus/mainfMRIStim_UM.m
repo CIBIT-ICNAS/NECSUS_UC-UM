@@ -46,7 +46,7 @@ S.debug         = DEBUG;
 % ---- preset CONDITIONS / STIMULI ----
 SPATIALFREQ     = 10;
 BACKGROUNDLUM   = 20;
-s.HASGLARE      = 0; % input('glare/noglare?:','s'); % glare setup
+S.hasGlare      = 1; % input('glare/noglare?:','s'); % glare setup
 
 % get the conditions for each participant
 conditions      = setConditions(PARTICIPANT);
@@ -62,6 +62,7 @@ gabor           = gaborInfo(SPATIALFREQ);
 [pFilename, pPath]  = uigetfile({'*.lospp','LoSpP Protocol (*.lospp)';}...
     ,'Open Protocol',...
     'Protocols/');
+
 % Confirmation of fMRI PROTOCOL file for the EVENT-RELATED experiment
 % returns an error.
 if ( ~ischar(pPath) || ~ischar(pFilename) )
@@ -69,7 +70,7 @@ if ( ~ischar(pPath) || ~ischar(pFilename) )
     return
 end
 % Path for the file and load the experiment parameters.
-locationFile    = strcat(pPath,pFilename);
+locationFile    = strcat(pPath, pFilename);
 load(locationFile,'-mat','chaos','nrepeats','tr','tr_factor');
 % Protocol name.
 [~,pName,~]     = fileparts(pFilename);
@@ -119,7 +120,6 @@ S.escapekey         = KbName('Escape');
 S.backgroundLum     = BACKGROUNDLUM;
 % DEBUG - keyboard or Response box.
 S.keys              = iomethod(S.iomethod);
-
 
 %% Run STIMULI 
 % run experiment and return 'logdata' with responses
