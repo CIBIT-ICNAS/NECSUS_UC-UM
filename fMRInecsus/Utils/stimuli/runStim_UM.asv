@@ -122,8 +122,8 @@ try
     numSecs                 = 1;
     numFrames               = round(numSecs/ifi);
     
-    % Number of frames to wait.
-    waitframes              = 2;
+    % Numer of frames to wait.
+    waitframes              = 1;
 
     % ---- Glare. ----
     if S.hasGlare
@@ -193,7 +193,7 @@ try
         displayFixCross(window, fCross, scr.white)
 
         % Flip to the screen.
-        vbl                 = Screen('Flip', window, vbl + (waitframes - 0.6) * ifi); % Flip to the screen.
+        vbl                 = Screen('Flip', window, vbl + (waitframes - 0.5) * ifi); % Flip to the screen.
         
     end
     

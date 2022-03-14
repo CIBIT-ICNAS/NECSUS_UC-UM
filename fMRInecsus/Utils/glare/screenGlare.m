@@ -1,6 +1,6 @@
 function screenGlare(glare, wScreen, color, blink)
 %SCREENGLARE  Prepares the glare frame for drawing
-%   output = screenGlare(input)
+%   output = screenGlare(glare, wScreen, color, blink)
 %
 %   Example
 %   screenGlare
