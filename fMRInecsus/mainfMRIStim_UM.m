@@ -26,9 +26,9 @@ DEBUG   = 1;
 
 % Create participant variable with psychopsysics and meta data.
 ID      = 'DEBUG'; % 'sub-NECSUS-UC001'
-GT      = 1; % Threshold with GLARE.
-NT      = 1; % Near Threshold without GLARE.
-GNT     = 1; % Near Threshold with GLARE.
+GT      = 1.3; % Threshold with GLARE.
+NT      = 1.5; % Near Threshold without GLARE.
+GNT     = 1.6; % Near Threshold with GLARE.
 
 % Create Participant data variable.
 PARTICIPANT     = setParticipant(ID, NT, GT, GNT);

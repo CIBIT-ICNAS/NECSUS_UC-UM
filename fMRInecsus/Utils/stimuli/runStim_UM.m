@@ -39,7 +39,7 @@ try
 
         % Load gamma corrected scale for LCD monitor
         load(fullfile(pwd,'Utils','luminance','invertedCLUT.mat'));
-        totalTrials=2;
+        totalTrials=1;
     end
     
     % Set "real time priority level"
@@ -86,11 +86,13 @@ try
     [scr.screenXpixels, scr.screenYpixels]  = Screen('WindowSize', window);
     
   
+    % Retreive the maximum priority number
+    topPriorityLevel        = MaxPriority(window);  
     
     % ---- Fixation cross elements. ----
     % Get the centre coordinate of the window and create cross.
     [fCross]                = designFixationCross();
-    [fCross.xCenter, fCross.yCenter] =RectCenter(windowRect);
+    [fCross.xCenter, fCross.yCenter] = RectCenter(windowRect);
     
     % ---- PARAMETER SETUP ----
     % ---- GABOR. ----
@@ -123,7 +125,12 @@ try
     numFrames               = round(numSecs/ifi);
     
     % Number of frames to wait.
-    waitframes              = 2;
+    waitframes              = 1;
+    numFrames               = numFrames/waitframes;
+
+    flipoffset              = .1;
+    vbl_ar=[];
+    vblNext_ar=[];
 
     % ---- Glare. ----
     if S.hasGlare
@@ -193,7 +200,10 @@ try
         displayFixCross(window, fCross, scr.white)
 
         % Flip to the screen.
-        vbl                 = Screen('Flip', window, vbl + (waitframes - 0.6) * ifi); % Flip to the screen.
+        vbl                 = Screen('Flip', window, vbl + (waitframes - flipoffset) * ifi); % Flip to the screen.
+        % vbl                 = Screen('Flip', window); % Flip to the screen.
+        vbl_ar(end+1)       = vbl;
+        vblNext_ar(end+1)       = (waitframes - flipoffset) * ifi;
         
     end
     
@@ -219,6 +229,7 @@ try
         durationInSecs              = ( ( (time.stimPres(trialIdx) + S.prt.parameters.trial_duration) - (GetSecs-time.start) ) );
 
         fprintf('[Chrono] Contrast display (trialIdx %d): %.3f. \n', trialIdx, GetSecs-time.start);
+        fprintf('[ChronoDur] Contrast duration : %.3f \n', durationInSecs);
 
         for frame = 1: round(numFrames * durationInSecs)        
             if S.hasGlare            
@@ -241,8 +252,9 @@ try
                 [], [], kPsychDontDoRotation, [gabor.phase+180, gabor.spatFreq, gabor.sigma, contrast, gabor.aspectratio, 0, 0, 0]);
     
             % Flip to the screen.
-            vbl             = Screen('Flip', window, vbl + (waitframes - 0.5) * ifi); % Flip to the screen.
-            
+            vbl             = Screen('Flip', window, vbl + (waitframes - flipoffset) * ifi); % Flip to the screen.
+            vbl_ar(end+1)       = vbl;
+            vblNext_ar(end+1)   = (waitframes - flipoffset) * ifi;
         end
 
         fprintf('[Chrono] End contrast display (trialIdx %d): %.3f. \n', trialIdx, GetSecs-time.start);
@@ -256,6 +268,7 @@ try
 
         % Wait until fixation cross period ends.
         durationInSecs      = S.prt.events{trialIdx,3};
+        fprintf('[ChronoDur] Fixation duration : %.3f \n', durationInSecs);
             
         for frame = 1: round(numFrames * durationInSecs)  
                    
@@ -278,8 +291,9 @@ try
             displayFixCross(window, fCross, scr.white)
 
             % Flip to the screen.
-            vbl             = Screen('Flip', window, vbl + (waitframes - 0.5) * ifi); % Flip to the screen.
-                       
+            vbl             = Screen('Flip', window, vbl + (waitframes - flipoffset) * ifi); % Flip to the screen.
+            vbl_ar(end+1)       = vbl;     
+            vblNext_ar(end+1)   = (waitframes - flipoffset) * ifi;
 
             % --- Get response. ---
 
@@ -308,8 +322,12 @@ try
     closeStim(window);
     
     fprintf('Total duration of the stimuli was %.3f.\n', time.finished);
+
+%     save('vbl.mat','vbl_ar', 'vblNext_ar')
     
 catch me
+
+    me 
 
     % Elements to close stim, clear vars, etc.
     closeStim(window);

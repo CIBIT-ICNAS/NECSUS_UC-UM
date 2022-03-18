@@ -7,8 +7,8 @@ Screen('DrawLines',...
     fCross.lineWidthPix,...
     white,...
     [fCross.xCenter fCross.yCenter]);
-% Flip to the screen
-Screen('Flip',window);
+% % Flip to the screen
+% Screen('Flip',window);
 
 escapeButtonPress()
 
